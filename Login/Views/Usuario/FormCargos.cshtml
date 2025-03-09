@@ -1,0 +1,34 @@
+﻿@model List<Empresas>
+@{
+    ViewData["Title"] = "Insertar Cargo";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+
+
+<div class="content-wrapper">
+    <div class="container">
+        <h1>Formulario para Agregar Cargo</h1>
+        <form role="form" asp-controller="Usuario" asp-action="InsertarTabla" method="POST">
+            <div class="form-group">
+                <label for="nombreCargo">Nombre del Cargo</label>
+                <input type="text" class="form-control" id="nombreCargo" name="nombreCargo" placeholder="Ingrese el nombre del cargo" required>
+            </div>
+            <div class="form-group">
+                <label for="descripcionCargo">Descripción del Cargo</label>
+                <textarea class="form-control" id="descripcionCargo" name="descripcionCargo" rows="3" placeholder="Ingrese la descripción del cargo" required></textarea>
+            </div>
+            <div class="form-group">
+                <label for="id_empresa">Seleccionar Empresa</label>
+                <select class="form-control" id="id_empresa" name="id_empresa" required>
+                    <option value="">Seleccionar Empresa</option>
+                    @foreach (var empresa in Model)
+                    {
+                        <option value="@empresa.Id_empresa">@empresa.Nombre</option>
+                    }
+                </select>
+            </div>
+            <button type="submit" class="btn btn-primary">Agregar Cargo</button>
+        </form>
+    </div>
+</div>

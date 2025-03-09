@@ -1,0 +1,190 @@
+﻿@model List<Producto>
+@{
+    ViewData["Title"] = "Visualizar";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<div class="content-wrapper">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-12 col-md-1">
+                <style>
+                    .vertical-nav {
+                        position: fixed;
+                        background-color: #343a40;
+                        color: white;
+                        padding-top: 20px;
+                    }
+
+                        .vertical-nav .nav-link {
+                            color: white;
+                            padding: 15px;
+                            font-size: 1.1em;
+                        }
+
+                            .vertical-nav .nav-link:hover {
+                                background-color: #495057;
+                            }
+
+                            .vertical-nav .nav-link.active {
+                                background-color: #007bff;
+                            }
+
+                    .search-box {
+                        display: none;
+                        width: 300px;
+                        background-color: #f1f1f1;
+                        box-shadow: -2px 0 5px rgba(0,0,0,0.2);
+                        padding: 20px;
+                    }
+
+                        .search-box.active {
+                            display: block;
+                        }
+
+                    .form-group {
+                        margin-bottom: 15px;
+                    }
+
+                    .results-box {
+                        display: none;
+                        margin-top: 20px;
+                    }
+
+                        .results-box.active {
+                            display: block;
+                        }
+                </style>
+                <nav class="vertical-nav">
+                    <ul class="nav flex-column">
+                        <li class="nav-item">
+                            <a href="#" class="nav-link" id="search-product-btn" data-toggle="tooltip" data-placement="right" title="Buscar Producto"><i class="fas fa-search"></i></a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="#" class="nav-link" id="sinstock-product-btn" data-toggle="tooltip" data-placement="right" title="Productos sin stock"><i class="fas fa-exclamation-circle"></i></a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="#" class="nav-link" id="proxsinstock-product-btn" data-toggle="tooltip" data-placement="right" title="Productos proximos sin stock"><i class="fas fa-bell"></i></a>
+                        </li>
+                    </ul>
+                </nav>
+            </div>
+            <div class="col-12 col-md-11">
+                <div class="search-box" id="search-box">
+                    <h2>Buscar Producto</h2>
+                    <div class="form-group">
+                        <label for="product-code">Código del Producto:</label>
+                        <input type="text" id="product-code" class="form-control">
+                    </div>
+                    <div class="form-group">
+                        <label for="category">Categoría:</label>
+                        <select id="category" class="form-control">
+                            <option value="">Seleccione una categoría</option>
+                            @foreach (var categoria in Model.Select(p => p.Categoria).Distinct())
+                            {
+                                <option value="@categoria">@categoria</option>
+                            }
+                        </select>
+                    </div>
+                    <button type="button" id="search-btn" class="btn btn-primary">Buscar</button>
+                    <button type="button" id="close-search-box" class="btn btn-secondary">Cerrar</button>
+                </div>
+                <div class="results-box" id="results-box">
+                    <h2>Resultados de la búsqueda</h2>
+                    <div id="results"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    $(document).ready(function () {
+        var n = 0;
+        $('#search-product-btn').on('click', function () {
+            $('#search-box').addClass('active');
+            $('#results-box').removeClass('active');
+            $('#results').html('');
+            n = 1;
+        });
+        $('#sinstock-product-btn').on('click', function () {
+            $('#search-box').addClass('active');
+            $('#results-box').removeClass('active');
+            $('#results').html('');
+            n = 2;
+        });
+        $('#proxsinstock-product-btn').on('click', function () {
+            $('#search-box').addClass('active');
+            $('#results-box').removeClass('active');
+            $('#results').html('');
+            n = 3;
+        });
+
+        $('#close-search-box').on('click', function () {
+            $('#search-box').removeClass('active');
+        });
+
+        $('#search-btn').on('click', function () {
+            var searchTerm = $('#product-code').val();
+            var categoriaTerm = $('#category').val();
+            switch (n) {
+                case 1:
+                    $.ajax({
+                        url: '@Url.Action("Buscar", "Producto")',
+                        type: 'GET',
+                        data: {
+                            searchTerm: searchTerm,
+                            categoriaTerm: categoriaTerm
+                        },
+                        success: function (data) {
+                            $('#search-box').removeClass('active');
+                            $('#results-box').addClass('active');
+                            $('#results').html(data);
+                        },
+                        error: function () {
+                            $('#results').append('<div>Error al buscar productos.</div>');
+                        }
+                    });
+                    break;
+                case 2:
+                    $.ajax({
+                        url: '@Url.Action("BuscarSinStock", "Producto")',
+                        type: 'GET',
+                        data: {
+                            searchTerm: searchTerm,
+                            categoriaTerm: categoriaTerm
+                        },
+                        success: function (data) {
+                            $('#search-box').removeClass('active');
+                            $('#results-box').addClass('active');
+                            $('#results').html(data);
+                        },
+                        error: function () {
+                            $('#results').append('<div>Error al buscar productos.</div>');
+                        }
+                    });
+                    break;
+                case 3:
+                    $.ajax({
+                        url: '@Url.Action("BuscarProximosSinStock", "Producto")',
+                        type: 'GET',
+                        data: {
+                            searchTerm: searchTerm,
+                            categoriaTerm: categoriaTerm
+                        },
+                        success: function (data) {
+                            $('#search-box').removeClass('active');
+                            $('#results-box').addClass('active');
+                            $('#results').html(data);
+                        },
+                        error: function () {
+                            $('#results').append('<div>Error al buscar productos.</div>');
+                        }
+                    });
+                    break;
+                default:
+                    console.log("No ha seleccionado una opcion");
+                    break;
+            }
+        });
+    });
+</script>

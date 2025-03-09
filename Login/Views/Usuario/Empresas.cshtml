@@ -1,0 +1,48 @@
+﻿@model List<Empresas>
+@{
+    ViewData["Title"] = "Empresas";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+
+<div class="content-wrapper">
+    <div class="container">
+        <div class="row">
+            <div class="col-4">
+                <ul class="nav">
+                    <li class="nav-item">
+                        <a class="nav-link" asp-controller="Usuario" asp-action="FormEmpresas">Agregar Empresa</a>
+                    </li>
+                </ul>
+            </div>
+            <div class="col-8">
+                <h1>Compañias asociadas</h1>
+            </div>
+            <div class="col-12">
+                <table class="table table-striped">
+                    <thead>
+                        <tr>
+                            <th>ID Empresa</th>
+                            <th>Empresa</th>
+                            <th>Pais</th>
+                            <th>Direccion</th>
+                            <th>Telefono</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var empresas in Model)
+                        {
+                            <tr>
+                                <td>@empresas.Id_empresa</td>
+                                <td>@empresas.Nombre</td>
+                                <td>@empresas.Pais</td>
+                                <td>@empresas.Direccion</td>
+                                <td>@empresas.Telefono</td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>

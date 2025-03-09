@@ -1,0 +1,166 @@
+﻿@model Plataforma.Models.ProveedorProductosViewModel
+@{
+    ViewData["Title"] = "CrearPedido";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="content-wrapper">
+    <form role="form" id="productForm" asp-controller="Producto" asp-action="GuardarHistoricoCompra">
+        <section class="content-header">
+            <div class="container-fluid">
+                <div class="row mb-2">
+                    <div class="col-sm-6">
+                        <h2 class="text-primary">Factura de Compra</h2>
+                        <p class="text-muted">Ingrese los detalles de la factura y los productos correspondientes.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+        <section class="content">
+            <div class="container-fluid">
+                <div class="row justify-content-center">
+                    <!-- Contenedor principal -->
+                    <div class="col-md-10">
+                        <div class="card shadow-lg border-secondary">
+                            <!-- Encabezado de la factura -->
+                            <div class="card-header bg-dark text-white">
+                                <h3 class="card-title text-center mb-0">Factura de Compra</h3>
+                            </div>
+                            <!-- Contenido de la factura -->
+                            <div class="card-body">
+                                <!-- Información del cliente y factura -->
+                                <div class="row mb-4">
+                                    <div class="col-md-6">
+                                        <h5 class="text-secondary">Detalles del Proveedor</h5>
+                                        <div class="form-group">
+                                            <label for="clienteNombre" class="fw-bold">Escoger Proveedor</label>
+                                            <select class="form-control" id="nit" name="tpventa" required>
+                                                <option value="">Seleccione el NIT</option>
+                                                @foreach (var proveedor in Model.Proveedores)
+                                                {
+                                                    <option value="@proveedor.Nit" data-razon-social="@proveedor.RazonSocial">@proveedor.Nit - @proveedor.RazonSocial</option>
+                                                }
+                                            </select>
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="nitseleccionado" class="fw-bold">NIT</label>
+                                            <input type="text" class="form-control" id="nitseleccionado" name="nitseleccionado" placeholder="Ingrese el NIT" readonly>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <h5 class="text-secondary">Información de la Factura</h5>
+                                        <div class="form-group">
+                                            <label for="numeroFactura" class="fw-bold">Número de Factura</label>
+                                            <input type="text" class="form-control bg-light border-0" id="numeroFactura" name="codfact" value="@Model.Cod_Factura" readonly>
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="fechaFactura" class="fw-bold">Fecha</label>
+                                            <input type="date" class="form-control" id="fechaFactura" name="fechaRegistro" value="@DateTime.Now.ToString("yyyy-MM-dd")">
+                                        </div>
+                                    </div>
+                                </div>
+                                <!-- Tabla de productos -->
+                                <h5 class="text-secondary">Detalles de los Productos</h5>
+                                <div class="table-responsive mb-4">
+                                    <button type="button" class="btn btn-success btn-sm" onclick="insertarFilasCrearPedido()">
+                                        <i class="fas fa-plus"></i> Agregar Producto
+                                    </button>
+                                    <table class="table table-bordered" data-tipo="compra">
+                                        <thead class="bg-primary text-white">
+                                            <tr>
+                                                <th>Código</th>
+                                                <th>Cantidad</th>
+                                                <th>Valor Neto</th>
+                                                <th>Valor Unitario</th>
+                                                <th>Acumulado</th>
+                                                <th>Acciones</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody id="tablaProductos">
+                                            <tr>
+                                                <td>
+                                                    <input type="text" class="form-control codigoProducto" name="productos[0].Codigo" placeholder="Código" id="codfact0">
+                                                    <div class="opcionesCodigosProducto"></div>
+                                                </td>
+                                                <td>
+                                                    <input type="number" class="form-control" name="productos[0].Stock" placeholder="Cantidad" id="stock0">
+                                                </td>
+                                                <td>
+                                                    <input type="number" class="form-control" name="productos[0].VNeto" placeholder="Venta Neto" id="vneto0">
+                                                </td>
+                                                <td>
+                                                    <input type="text" class="form-control" name="productos[0].VVenta" readonly placeholder="Valor Venta" id="vventa0">
+                                                </td>
+                                                <td>
+                                                    <input type="number" class="form-control" name="productos[0].VTotal" placeholder="Valor Total" id="vtotal0">
+                                                </td>
+                                                <td>
+                                                    <button type="button" class="btn btn-danger btn-sm" onclick="eliminarFila(this)">
+                                                        <i class="fas fa-trash"></i>
+                                                    </button>
+                                                </td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                    <button type="button" class="btn btn-success btn-sm" onclick="AcumularProductosDePedido()">
+                                        <i class="fas fa-plus"></i> Acumulado Pedido
+                                    </button>
+                                </div>
+
+                                <!-- Resumen de la factura -->
+                                <h5 class="text-secondary">Resumen de la Factura</h5>
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <label for="subtotalFactura" class="fw-bold">Subtotal</label>
+                                            <input type="text" class="form-control bg-light border-0" id="subtotalFactura" name="subtotalFactura" readonly value="0.00">
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="ivaFactura" class="fw-bold">IVA (19%)</label>
+                                            <input type="text" class="form-control bg-light border-0" id="ivaFactura" name="ivaFactura" value="0.00">
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="descuentoFactura" class="fw-bold">Descuento</label>
+                                            <input type="number" class="form-control" id="descuentoFactura" name="descuentoFactura" value="0">
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <label for="totalFactura" class="fw-bold">Total</label>
+                                            <input type="text" class="form-control bg-light border-0 text-success fw-bold" id="totalFactura" name="totalFactura" readonly value="0.00">
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Footer de la factura -->
+                            <div class="card-footer text-center">
+                                <button type="submit" class="btn btn-primary btn-lg">
+                                    <i class="fas fa-save"></i> Guardar Factura
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </form>
+</div>
+
+
+
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        const selectNit = document.getElementById('nit');
+        const inputCedula = document.getElementById('nitseleccionado');
+
+        selectNit.addEventListener('change', function () {
+            // Obtener el NIT seleccionado
+            const selectedOption = selectNit.options[selectNit.selectedIndex];
+            const nitValue = selectedOption.value;
+
+            // Actualizar el input con el NIT seleccionado
+            inputCedula.value = nitValue || '';
+        });
+    });
+</script>

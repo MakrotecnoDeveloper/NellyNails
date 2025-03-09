@@ -1,0 +1,320 @@
+﻿@model List<Servicio>
+@{
+    Layout = null;
+}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Makrotecno</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="Página de Makrotecno">
+    <meta name="author" content="Equipo Makrotecno">
+
+    <!-- Bootstrap core CSS -->
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+
+    <!-- FontAwesome Icons -->
+    <link rel="stylesheet" href="~/AdminLTE/plugins/fontawesome-free/css/all.min.css">
+
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css?family=Saira+Extra+Condensed:500,700" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=Muli:400,400i,800,800i" rel="stylesheet">
+
+    <!-- Custom styles -->
+    <link rel="stylesheet" href="~/css/index-style.css" />
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/resume.min.css" />
+</head>
+<body id="page-top">
+    <div class="content-wrapper">
+        <div class="container-fluid">
+
+            <nav class="navbar navbar-expand-lg navbar-dark bg-primary fixed-top" id="sideNav">
+                <a class="navbar-brand js-scroll-trigger text-center py-4" href="#page-top">
+                    <span class="d-block d-lg-none">Makro Tecno</span>
+                    <span class="d-none d-lg-block">
+                        <img class="img-fluid img-profile rounded-circle mx-auto mb-2" src="~/img/Logo.png" alt="Logo MakroTecno" style="width: 120px; height: 120px;">
+                    </span>
+                </a>
+                <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                    <ul class="navbar-nav flex-column w-100 text-center">
+                        <li class="nav-item my-2">
+                            <a class="nav-link js-scroll-trigger text-light" href="#inicio">
+                                <i class="fas fa-home mr-2"></i>Inicio
+                            </a>
+                        </li>
+                        <li class="nav-item my-2">
+                            <a class="nav-link js-scroll-trigger text-light" href="#nosotros">
+                                <i class="fas fa-users mr-2"></i>Nosotros
+                            </a>
+                        </li>
+                        <li class="nav-item my-2">
+                            <a class="nav-link js-scroll-trigger text-light" href="#portfServicios">
+                                <i class="fas fa-briefcase mr-2"></i>Portafolio
+                            </a>
+                        </li>
+                        <li class="nav-item my-2">
+                            <a class="nav-link js-scroll-trigger text-light" href="#contacto">
+                                <i class="fas fa-envelope mr-2"></i>Contacto
+                            </a>
+                        </li>
+                        <li class="nav-item my-2">
+                            <a class="nav-link js-scroll-trigger text-light" asp-controller="Home" asp-action="Login">
+                                <i class="fas fa-sign-in-alt mr-2"></i>Portal
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+            </nav>
+
+            <section class="resume-section text-center p-4 bg-light" id="inicio">
+                <div class="container">
+                    <h1 class="mb-3 display-4 fw-bold text-primary">Makro Tecno</h1>
+                    <p class="lead text-secondary">¡Tecnología a tu alcance!</p>
+                </div>
+            </section>
+
+            <hr class="my-5">
+
+            <section class="resume-section p-5 bg-white" id="nosotros">
+                <div class="container">
+                    <h2 class="text-center fw-bold mb-4 text-primary">Nosotros</h2>
+                    <div class="row gy-4 justify-content-center">
+                        <div class="col-md-6 col-lg-3">
+                            <div class="card h-100 shadow-lg border-0 rounded-3">
+                                <div class="card-body">
+                                    <h5 class="card-title text-center text-primary">¿Quiénes Somos?</h5>
+                                    <p class="card-text text-center">Desde su fundación en 2022, nuestro propósito ha sido crear un amplio portafolio de productos y servicios tecnológicos, siempre enfocados en satisfacer las necesidades de nuestros clientes con un firme compromiso de calidad garantizada.</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-6 col-lg-3">
+                            <div class="card h-100 shadow-lg border-0 rounded-3">
+                                <div class="card-body">
+                                    <h5 class="card-title text-center text-primary">Nuestra Misión</h5>
+                                    <p class="card-text text-center">Conectando Tecnología, Soluciones y Futuro.</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-6 col-lg-3">
+                            <div class="card h-100 shadow-lg border-0 rounded-3">
+                                <div class="card-body">
+                                    <h5 class="card-title text-center text-primary">Nuestra Visión</h5>
+                                    <p class="card-text text-center">Nuestra visión para el año 2030 es llegar a todo el Valle del Cauca y aumentar nuestra gama de soluciones tecnológicas.</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <hr class="my-5">
+
+            <section class="resume-section p-5 bg-light" id="portfServicios">
+                <div class="container">
+                    <h2 class="text-center fw-bold text-primary mb-4">Portafolio de Servicios</h2>
+                    @if (Model != null && Model.Count >= 3)
+                    {
+                        <div class="row gy-4">
+                            <!-- Accesorios Tecnológicos -->
+                            <div class="col-md-4">
+                                <div class="card h-100 shadow-sm border-0 position-relative">
+                                    <div class="split-images">
+                                        <img class="left-img" src="~/img/accesorio1.png" alt="Accesorios tecnológicos">
+                                        <img class="right-img" src="~/img/accesorio2.png" alt="Accesorios tecnológicos">
+                                    </div>
+                                    <div class="card-body">
+                                        <h5 class="card-title fw-bold">@Model[0].NombreServicio</h5>
+                                        <p class="card-text">@Model[0].DescripcionServicio</p>
+                                        <a href="@Url.Action("ProductosExistentesVenta", "Producto", new { IdServicio = Model[0].IdServicio })"
+                                           class="btn btn-outline-primary btn-sm">Ver Más</a>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Outsourcing Empresarial -->
+                            <div class="col-md-4">
+                                <div class="card h-100 shadow-sm border-0 position-relative">
+                                    <div class="split-images">
+                                        <img class="left-img" src="~/img/outsourcing1.jpg" alt="Outsourcing Empresarial">
+                                        <img class="right-img" src="~/img/outsourcing2.jpg" alt="Outsourcing Empresarial">
+                                    </div>
+                                    <div class="card-body">
+                                        <h5 class="card-title fw-bold">@Model[1].NombreServicio</h5>
+                                        <p class="card-text">@Model[1].DescripcionServicio</p>
+                                        <a href="@Url.Action("ProductosExistentesVenta", "Producto", new { IdServicio = Model[1].IdServicio })"
+                                           class="btn btn-outline-primary btn-sm">Ver Más</a>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Servicios Adicionales -->
+                            <div class="col-md-4">
+                                <div class="card h-100 shadow-sm border-0 position-relative">
+                                    <div class="split-images">
+                                        <img class="left-img" src="~/img/servicios.jpg" alt="Servicios Adicionales">
+                                        <img class="right-img" src="~/img/servicios2.jpg" alt="Servicios Adicionales">
+                                    </div>
+                                    <div class="card-body">
+                                        <h5 class="card-title fw-bold">@Model[2].NombreServicio</h5>
+                                        <p class="card-text">@Model[2].DescripcionServicio</p>
+                                        <a href="@Url.Action("ProductosExistentesVenta", "Producto", new { IdServicio = Model[2].IdServicio })"
+                                           class="btn btn-outline-primary btn-sm">Ver Más</a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    }
+                    else
+                    {
+                        <p class="text-danger">No hay suficientes servicios disponibles para mostrar.</p>
+                    }
+                </div>
+            </section>
+
+            <hr class="my-5">
+
+            <section class="resume-section p-5 bg-white" id="contacto">
+                <div class="container">
+                    <h2 class="text-center fw-bold text-primary mb-4">Contacto</h2>
+                    <div class="row">
+                        <div class="col-md-6 text-center mb-4">
+                            <img src="https://image.ibb.co/kUASdV/contact-image.png" alt="Contacto" class="mb-3 img-fluid" style="max-width: 100px;">
+                            <h4>¡Estamos para ayudarte!</h4>
+                            <p>Quejas, dudas, reclamos y solicitudes.</p>
+                        </div>
+                        <div class="col-md-6">
+                            <!-- Mensaje de éxito -->
+                            @if (TempData["SuccessMessage"] != null)
+                            {
+                                <div class="alert alert-success alert-dismissible fade show" role="alert">
+                                    <strong>¡Éxito!</strong> @TempData["SuccessMessage"]
+                                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                                </div>
+                            }
+
+                            <!-- Mensaje de error -->
+                            @if (TempData["ErrorMessage"] != null)
+                            {
+                                <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                                    <strong>¡Error!</strong> @TempData["ErrorMessage"]
+                                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                                </div>
+                            }
+
+                            <!-- Errores de validación -->
+                            @if (!ViewData.ModelState.IsValid)
+                            {
+                                <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                                    <strong>¡Atención!</strong> Corrige los errores antes de enviar el formulario.
+                                    <ul>
+                                        @foreach (var error in ViewData.ModelState.Values.SelectMany(v => v.Errors))
+                                        {
+                                            <li>@error.ErrorMessage</li>
+                                        }
+                                    </ul>
+                                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                                </div>
+                            }
+
+                            <!-- Formulario -->
+                            <form asp-action="SendContactMessage" asp-controller="Home" method="post" enctype="multipart/form-data">
+                                <div class="mb-3">
+                                    <label for="fname" class="form-label">Nombre</label>
+                                    <input type="text" class="form-control" id="fname" name="FirstName" placeholder="Escribe tu nombre" required>
+                                </div>
+                                <div class="mb-3">
+                                    <label for="lname" class="form-label">Apellido</label>
+                                    <input type="text" class="form-control" id="lname" name="LastName" placeholder="Escribe tu apellido" required>
+                                </div>
+                                <div class="mb-3">
+                                    <label for="email" class="form-label">Correo</label>
+                                    <input type="email" class="form-control" id="email" name="Email" placeholder="ejemplo@correo.com" required>
+                                </div>
+                                <div class="mb-3">
+                                    <label for="comment" class="form-label">Comentario</label>
+                                    <textarea class="form-control" id="comment" name="Message" rows="4" placeholder="Escribe tu mensaje" required></textarea>
+                                </div>
+                                <div class="mb-3">
+                                    <label for="fichero" class="form-label">Adjuntar archivo</label>
+                                    <input type="file" class="form-control" id="fichero" name="Attachment">
+                                </div>
+                                <button type="submit" class="btn btn-primary w-100">Enviar</button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+
+            <!-- FOOTER -->
+            <footer class="bg-dark text-white pt-5">
+                <div class="container">
+                    <div class="row">
+                        <!-- Logo y Descripción -->
+                        <div class="col-lg-4 col-md-6 mb-4">
+                            <h5 class="text-uppercase fw-bold text-primary">Makro Tecno</h5>
+                            <p class="small">
+                                Ofrecemos los mejores accesorios tecnológicos a precios competitivos. Comprometidos con la calidad y la satisfacción del cliente.
+                            </p>
+                        </div>
+
+                        <!-- Enlaces útiles -->
+                        <div class="col-lg-2 col-md-6 mb-4">
+                            <h5 class="text-uppercase fw-bold">Enlaces útiles</h5>
+                            <ul class="list-unstyled">
+                                <li><a href="#!" class="text-white-50 text-decoration-none">Inicio</a></li>
+                                <li><a href="#!" class="text-white-50 text-decoration-none">Sobre Nosotros</a></li>
+                                <li><a href="#!" class="text-white-50 text-decoration-none">Servicios</a></li>
+                                <li><a href="#!" class="text-white-50 text-decoration-none">Contacto</a></li>
+                            </ul>
+                        </div>
+
+                        <!-- Contacto -->
+                        <div class="col-lg-3 col-md-6 mb-4">
+                            <h5 class="text-uppercase fw-bold">Contacto</h5>
+                            <ul class="list-unstyled small">
+                                <li class="mb-2">
+                                    <i class="bi bi-geo-alt-fill me-2"></i> Calle 33E # 25-11
+                                </li>
+                                <li class="mb-2">
+                                    <i class="bi bi-telephone-fill me-2"></i> +57 318 531 3379
+                                </li>
+                                <li>
+                                    <i class="bi bi-envelope-fill me-2"></i> makrotecnocomercio@gmail.com
+                                </li>
+                            </ul>
+                        </div>
+
+                        <!-- Mapa de ubicación -->
+                        <div class="col-lg-3 col-md-6 mb-4">
+                            <h5 class="text-uppercase fw-bold">Ubicación</h5>
+                            <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3982.650970142374!2d-76.51065182527614!3d3.4348313513306303!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x8e30a76597bc4a7d%3A0x4af277e7656f9c62!2sMakrotecno!5e0!3m2!1ses-419!2sco!4v1717456172294!5m2!1ses-419!2sco"
+                                    width="100%" height="150" style="border:0;"
+                                    allowfullscreen="" loading="lazy"
+                                    referrerpolicy="no-referrer-when-downgrade">
+                            </iframe>
+                        </div>
+                    </div>
+                </div>
+                <div class="bg-primary text-center py-3 mt-3">
+                    <small class="text-white">&copy; 2024 Makro Tecno. Todos los derechos reservados.</small>
+                </div>
+            </footer>
+            <!-- FIN FOOTER -->
+
+        </div>
+    </div>
+
+    <!-- JavaScript dependencies -->
+    <script src="~/AdminLTE/plugins/jquery/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-easing/1.4.1/jquery.easing.min.js"></script>
+    <script src="~/AdminLTE/plugins/bootstrap/js/bootstrap.bundle.min.js"></script>
+
+    <!-- Custom scripts -->
+    <script src="~/js/resume.js"></script>
+</body>
+</html>
